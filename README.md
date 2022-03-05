@@ -1,2 +1,75 @@
 # Guardian_Tales_Server
 坎公骑冠剑服务器
+
+翻译：
+
+- 守护者 Guardian
+- 冒险 Adventure
+- 积分 Point
+- 公会 Guild
+- 抽奖 Summons
+- 魔镜 Mirror Rift
+- 旅馆 Inn
+- 英雄 Hero
+- 进化 Evolution
+- 觉醒 Awakening
+- 突破 Limit Break
+- 卡槽 Slot
+- 魔塔 Orbital Lift
+- 属性塔 Tower of Horizon
+- 探索 Exploration Forge
+- 训练房 Training Room
+- 浮游城地下迷宫 Heavenhold Tower
+- 守护者基地 Guardian Base Camp
+- 世界地图 World Map
+- 原型角斗场 Colosseum
+- 多人角斗场 Multiplayer
+- 裂痕 Rift
+- 迷宫 Tower
+- 外传 Side Story
+- 卡玛逊 Kama-ZONE
+- 英雄升级 Add Exp
+- 神器 Artifact
+- 强化锤 Strengthening Hammer
+- 瓶盖 Bottle Cap
+- 魔镜碎片 Mirror Shard
+- 战斗勋章 Battle Medal
+- 里程 Mileage
+- 坎特币 Purple Coin
+- 超级时装 Super Costume
+- 装备外观 Equipment Costume
+- 英雄水晶 Hero Crystal
+- 传说觉醒石 Legendary Awakening Stone
+- 高等级 high-grade
+- 中等级 Mid-grade
+- 低等级 Low-grade
+- 攻击/防御/生命/梦幻 Atk/Def/HP/Dream
+- 战士 Warrior
+- 射手 Ranged
+- 坦克 Tanker
+- 辅助 Support
+- 虚属性 Basic
+- 光属性 Light
+- 暗属性 Dark
+- 土属性 Earth
+- 火属性 Fire
+- 水属性 Water
+- 产量 Production
+- 收集 Accumulated
+- 奖励 Bonus
+- 副本 Dungeon
+- 扫荡 Sweep
+- 金币 Gold
+- 技能 Skill
+- 单人 Solo
+- 伤害减免 Damage Reduction
+- 资源 Resource
+- 怪物 Master
+- 自动战斗 Auto Repeat
+- 平均进化石掉落 Average Evolution Stone Loot
+- 持有/需要 Own/Need
+- 免费/付费 Free/Paid
+- 钻石 Gems
+- 召唤概率 Summon Chance
+- 传奇英雄 Unique Hero
+
