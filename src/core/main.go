@@ -40,13 +40,15 @@ func main() {
 }
 
 func RUN(self *game.Player) {
+	fmt.Println("###############################")
+	fmt.Println("# This is my test mod         #")
+	fmt.Println("# Please select your function #")
 
 	for {
 		fmt.Println("###############################")
-		fmt.Println("# This is my test mod         #")
-		fmt.Println("# Please select your function #")
-		fmt.Println("###############################")
-		fmt.Println("# 1. 背包模块 2. 尽请期待        #")
+		fmt.Println("# 1. 背包模块 2. 抽奖模块       #")
+		fmt.Println("# 3. 英雄模块                  #")
+		fmt.Println("# 0. 退出                     #")
 		fmt.Println("###############################")
 		var selected int
 		fmt.Scan(&selected)
@@ -54,9 +56,16 @@ func RUN(self *game.Player) {
 		case 1:
 			fmt.Println(utils.Cyan("# 选择了背包模块"))
 			test.RUN_BAG_TEST(self)
+		case 2:
+			fmt.Println(utils.Cyan("# 选择了抽奖模块"))
+			test.RUN_SUMMON_TEST(self)
+		case 3:
+			fmt.Println(utils.Cyan("# 选择了英雄模块"))
+			test.RUN_HERO_TEST(self)
+		case 0:
+			return
 		default:
 			fmt.Println(utils.Cyan("# 尽请期待"))
 		}
-		break
 	}
 }

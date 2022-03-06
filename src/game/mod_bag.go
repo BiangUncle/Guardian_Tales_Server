@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	MODBAG_SYSTEM_INFO = "【背包模组】"
+	MODBAG_SYSTEM_INFO       = "【背包模组】"
+	MODBAG_SYSTEM_COLOR_INFO = "\x1b[0;31m【背包模组】\x1b[0m"
 
 	MP       = 1000001
 	GOLD     = 1000002
@@ -26,13 +27,14 @@ type ModBag struct {
 	FreeGems int64
 	PaidGems int64
 	MP       int64 // todo 以后要知道体力的英文
+	MPLimit  int64
 }
 
 func (self *ModBag) AddItem(itemId int, num int64, player *Player) {
 
 	itemConfig := csvs.GetItemConfig(itemId)
 	if itemConfig == nil {
-		fmt.Println(MODBAG_SYSTEM_INFO, "物品不存在")
+		fmt.Println(MODBAG_SYSTEM_COLOR_INFO, "物品不存在")
 		return
 	}
 
@@ -56,7 +58,7 @@ func (self *ModBag) AddItem(itemId int, num int64, player *Player) {
 	case csvs.ITEMTYPE_INVENTORY:
 		player.ModInventory.AddInventory(itemId)
 	default:
-		fmt.Println(MODBAG_SYSTEM_INFO, "未知物品")
+		fmt.Println(MODBAG_SYSTEM_COLOR_INFO, "未知物品")
 	}
 
 	return
@@ -66,7 +68,7 @@ func (self *ModBag) HasEnoughItem(itemId int, num int64) bool {
 
 	item, ok := self.BagInfos[itemId]
 	if !ok {
-		fmt.Println(MODBAG_SYSTEM_INFO, "背包不存在该物品")
+		fmt.Println(MODBAG_SYSTEM_COLOR_INFO, "背包不存在该物品")
 		return false
 	}
 
@@ -155,4 +157,8 @@ func (self *ModBag) RemoveGuardianItem(itemId int, num int64) {
 	default:
 		fmt.Println(MODBAG_SYSTEM_INFO, "未知背包物品")
 	}
+}
+
+func (self *ModBag) GetCurGuardianItem() int64 {
+	return 0
 }
