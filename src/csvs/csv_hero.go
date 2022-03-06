@@ -40,3 +40,11 @@ func GetHeroConfig(heroId int) *HeroConfig {
 	}
 	return heroInfo
 }
+
+func GetHeroFullName(heroId int) string {
+	heroInfo, ok := HeroConfigMap[heroId]
+	if !ok {
+		return ""
+	}
+	return heroInfo.NickName + heroInfo.HeroName
+}

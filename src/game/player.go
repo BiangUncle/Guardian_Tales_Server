@@ -17,6 +17,7 @@ type Player struct {
 	ModAccessory   *ModAccessory
 	ModMagicCard   *ModMagicCard
 	ModInventory   *ModInventory
+	ModSummon      *ModSummon
 }
 
 /*
@@ -84,6 +85,10 @@ func NewTestPlayer() *Player {
 	player.ModInventory = new(ModInventory)
 	player.ModInventory.Inventories = make(map[int]*InventoryInfo)
 	player.ModInventory.Locker = new(sync.RWMutex)
+
+	//****************************
+	player.ModSummon = new(ModSummon)
+	player.ModSummon.UpSummonInfo = new(SummonPoolInfo)
 
 	return player
 }

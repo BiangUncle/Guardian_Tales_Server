@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"server/src/core/test"
+	"server/src/csvs"
 	"server/src/game"
 	"server/src/utils"
 )
@@ -17,6 +18,8 @@ func init() {
 
 func main() {
 
+	// todo 抽卡模块
+	csvs.CheckLoadCsv()
 	player := game.NewTestPlayer()
 	RUN(player)
 
