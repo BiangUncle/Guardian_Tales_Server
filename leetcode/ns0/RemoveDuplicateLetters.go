@@ -1,4 +1,4 @@
-package leetcode
+package ns0
 
 func removeDuplicateLetters(s string) string {
 	n := len(s)

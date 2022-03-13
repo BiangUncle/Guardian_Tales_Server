@@ -1,4 +1,4 @@
-package leetcode
+package ns0
 
 func haveSame(strs []string) int {
 	n := len(strs)

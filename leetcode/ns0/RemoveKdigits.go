@@ -1,4 +1,4 @@
-package leetcode
+package ns0
 
 func removeKdigits(num string, k int) string {
 

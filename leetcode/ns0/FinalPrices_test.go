@@ -1,4 +1,4 @@
-package leetcode
+package ns0
 
 import (
 	"testing"
@@ -16,7 +16,7 @@ func Test_finalPrices(t *testing.T) {
 	prices := []int{8, 4, 6, 2, 3}
 
 	finalPrices(prices)
-	
+
 	//prices = []int{1, 2, 3, 4, 5}
 	//finalPrices(prices)
 	//

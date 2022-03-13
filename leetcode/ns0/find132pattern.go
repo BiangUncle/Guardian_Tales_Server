@@ -1,4 +1,4 @@
-package leetcode
+package ns0
 
 func find132pattern(nums []int) bool {
 	n := len(nums)

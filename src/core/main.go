@@ -47,7 +47,7 @@ func RUN(self *game.Player) {
 	for {
 		fmt.Println("###############################")
 		fmt.Println("# 1. 背包模块 2. 抽奖模块       #")
-		fmt.Println("# 3. 英雄模块                  #")
+		fmt.Println("# 3. 英雄模块 4. 浮游城         #")
 		fmt.Println("# 0. 退出                     #")
 		fmt.Println("###############################")
 		var selected int
@@ -62,6 +62,9 @@ func RUN(self *game.Player) {
 		case 3:
 			fmt.Println(utils.Cyan("# 选择了英雄模块"))
 			test.RUN_HERO_TEST(self)
+		case 4:
+			fmt.Println(utils.Cyan("# 进入浮游城"))
+			test.RUN_FLOAT_CITY_TEST(self)
 		case 0:
 			return
 		default:

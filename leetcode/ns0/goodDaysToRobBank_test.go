@@ -1,4 +1,4 @@
-package leetcode
+package ns0
 
 import (
 	"fmt"

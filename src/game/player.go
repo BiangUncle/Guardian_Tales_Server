@@ -7,17 +7,18 @@ import (
 const SYSTEM_INFO = "【系统通知】"
 
 type Player struct {
-	ModGuardian    *ModGuardian
-	ModIcon        *ModIcon
-	ModAchievement *ModAchievement
-	ModBag         *ModBag
-	ModHero        *ModHero
-	ModWeapon      *ModWeapon
-	ModCostume     *ModCostume
-	ModAccessory   *ModAccessory
-	ModMagicCard   *ModMagicCard
-	ModInventory   *ModInventory
-	ModSummon      *ModSummon
+	ModGuardian     *ModGuardian
+	ModIcon         *ModIcon
+	ModAchievement  *ModAchievement
+	ModBag          *ModBag
+	ModHero         *ModHero
+	ModWeapon       *ModWeapon
+	ModCostume      *ModCostume
+	ModAccessory    *ModAccessory
+	ModMagicCard    *ModMagicCard
+	ModInventory    *ModInventory
+	ModSummon       *ModSummon
+	ModModFloatCity *ModFloatCity
 }
 
 /*
@@ -89,6 +90,10 @@ func NewTestPlayer() *Player {
 	//****************************
 	player.ModSummon = new(ModSummon)
 	player.ModSummon.UpSummonInfo = new(SummonPoolInfo)
+
+	//****************************
+	player.ModModFloatCity = new(ModFloatCity)
+	player.ModModFloatCity.FloatCityInit()
 
 	return player
 }
