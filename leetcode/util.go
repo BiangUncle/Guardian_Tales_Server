@@ -1,11 +1,14 @@
 package leetcode
 
 import (
+	"fmt"
 	"math/rand"
 	"server/leetcode/ns0"
 	"strconv"
 	"time"
 )
+
+const MIN = -50000
 
 func create_random_list(nums_len int) []int {
 	rand.Seed(time.Now().Unix())
@@ -125,4 +128,38 @@ func morrisPostorderTraversal(root *ns0.TreeNode) (res []int) {
 	}
 	addPath(root)
 	return
+}
+
+func CreatRandomRange(n int) [][]int {
+	ret := make([][]int, n)
+	rand.Seed(time.Now().Unix())
+	for i := 0; i < n; i++ {
+		ret[i] = make([]int, 2)
+		v := ret[i]
+		v[0] = MIN + rand.Intn(100000)
+		v[1] = v[0] + 1 + rand.Intn(50000-v[0])
+	}
+	return ret
+}
+
+func Print2DimAarray(nums [][]int) {
+	str := "["
+	for i := 0; i < len(nums); i++ {
+		str = str + fmt.Sprintf("[%d,%d],", nums[i][0], nums[i][1])
+	}
+	str = str[:len(str)-1] + "]"
+	fmt.Println(str)
+}
+
+func CreateRandomPoint(num, n int) [][]int {
+	ret := make([][]int, 0)
+	rand.Seed(time.Now().Unix())
+
+	for i := 0; i < num; i++ {
+		point := make([]int, 2)
+		point[0] = rand.Intn(n)
+		point[1] = rand.Intn(n)
+		ret = append(ret, point)
+	}
+	return ret
 }

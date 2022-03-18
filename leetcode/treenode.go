@@ -2,12 +2,17 @@ package leetcode
 
 import (
 	"fmt"
-	"server/leetcode/ns0"
 	"strconv"
 	"strings"
 )
 
-func create_treeNode(str string) *ns0.TreeNode {
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+func create_treeNode(str string) *TreeNode {
 	str = str[1 : len(str)-1]
 	nums := strings.Split(str, ",")
 	if len(nums) == 0 {
@@ -15,9 +20,9 @@ func create_treeNode(str string) *ns0.TreeNode {
 	}
 
 	val, _ := strconv.Atoi(nums[0])
-	root := &ns0.TreeNode{Val: val}
+	root := &TreeNode{Val: val}
 
-	node_q := make([]*ns0.TreeNode, 0)
+	node_q := make([]*TreeNode, 0)
 	node_q = append(node_q, root)
 
 	i := 1
@@ -27,7 +32,7 @@ func create_treeNode(str string) *ns0.TreeNode {
 
 		if i < len(nums) && nums[i] != "null" {
 			num, _ := strconv.Atoi(nums[i])
-			node := &ns0.TreeNode{Val: num}
+			node := &TreeNode{Val: num}
 			node_q = append(node_q, node)
 			cur.Left = node
 		}
@@ -35,7 +40,7 @@ func create_treeNode(str string) *ns0.TreeNode {
 
 		if i < len(nums) && nums[i] != "null" {
 			num, _ := strconv.Atoi(nums[i])
-			node := &ns0.TreeNode{Val: num}
+			node := &TreeNode{Val: num}
 			node_q = append(node_q, node)
 			cur.Right = node
 		}
@@ -46,14 +51,14 @@ func create_treeNode(str string) *ns0.TreeNode {
 	return root
 }
 
-func preorder_print(root *ns0.TreeNode) {
+func preorder_print(root *TreeNode) {
 	if root == nil {
 		fmt.Println("[]")
 		return
 	}
 	str := "["
-	var preorder func(root *ns0.TreeNode)
-	preorder = func(root *ns0.TreeNode) {
+	var preorder func(root *TreeNode)
+	preorder = func(root *TreeNode) {
 		if root == nil {
 			return
 		}
