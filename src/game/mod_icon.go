@@ -1,48 +1,53 @@
 package game
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
 )
 
-const MODICON_SYSTEM_INFO = "【头像模块】"
+const ModIconSystemInfo = "【头像模块】"
 
+// IconInfo 图标信息
 type IconInfo struct {
 	IconId int
 }
 
+// ModIcon 图标模组
 type ModIcon struct {
 	IconInfos map[int]*IconInfo
 }
 
-func (self *ModIcon) IsHasIcon(iconId int) bool {
-	_, ok := self.IconInfos[iconId]
+// IsHasIcon 是否有该图标
+func (m *ModIcon) IsHasIcon(iconId int) bool {
+	_, ok := m.IconInfos[iconId]
 	if ok {
 		return true
 	}
 	return false
 }
 
-func (self *ModIcon) SetIcon(iconId int, player *Player) {
+// SetIcon 设置图标
+func (m *ModIcon) SetIcon(iconId int, player *Player) {
 
-	if !self.IsHasIcon(iconId) {
-		fmt.Println(SYSTEM_INFO, "该用户没有该头像")
+	if !m.IsHasIcon(iconId) {
+		log.Infoln(SYSTEM_INFO, "该用户没有该头像")
 		return
 	}
 
-	fmt.Println(SYSTEM_INFO, "设置用户头像成功")
+	log.Infoln(SYSTEM_INFO, "设置用户头像成功")
 	player.ModGuardian.Icon = iconId
 
 	return
 }
 
-func (self *ModIcon) AddIcon(iconId int) {
+// AddIcon 增加图标
+func (m *ModIcon) AddIcon(iconId int) {
 
-	_, ok := self.IconInfos[iconId]
+	_, ok := m.IconInfos[iconId]
 	if ok {
-		fmt.Println(MODICON_SYSTEM_INFO, "已存在该头像")
+		log.Infoln(ModIconSystemInfo, "已存在该头像")
 		return
 	}
 
-	self.IconInfos[iconId] = &IconInfo{IconId: iconId}
-	fmt.Println(MODICON_SYSTEM_INFO, "添加头像成功")
+	m.IconInfos[iconId] = &IconInfo{IconId: iconId}
+	log.Infoln(ModIconSystemInfo, "添加头像成功")
 }

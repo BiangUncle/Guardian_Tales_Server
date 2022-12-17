@@ -7,7 +7,7 @@ import (
 	"net"
 )
 
-func comsume() {
+func consume() {
 
 	conn, err := net.Dial("tcp", "127.0.0.1:12345")
 	if err != nil {

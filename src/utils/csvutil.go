@@ -24,7 +24,7 @@ func GetCsvUtilMgr() *CsvUtilMgr {
 	return csvUtilMgr
 }
 
-func (self *CsvUtilMgr) getFieldMap(config interface{}) map[string][]string {
+func (m *CsvUtilMgr) getFieldMap(config interface{}) map[string][]string {
 	t := reflect.TypeOf(config)
 	fieldMap := make(map[string][]string, t.NumField())
 	for i := 0; i < t.NumField(); i++ {
@@ -38,7 +38,7 @@ func (self *CsvUtilMgr) getFieldMap(config interface{}) map[string][]string {
 	return fieldMap
 }
 
-func (self *CsvUtilMgr) readCsv(fileName string) [][]string {
+func (m *CsvUtilMgr) readCsv(fileName string) [][]string {
 	csvReadFile, err := os.Open(fileName)
 	defer csvReadFile.Close()
 	if err != nil {
@@ -69,7 +69,7 @@ func (self *CsvUtilMgr) readCsv(fileName string) [][]string {
 	return records
 }
 
-func (self *CsvUtilMgr) getTagMap(fields []string) map[int]string {
+func (m *CsvUtilMgr) getTagMap(fields []string) map[int]string {
 	tagMap := make(map[int]string, len(fields))
 	for index, v := range fields {
 		tagMap[index] = v
@@ -78,7 +78,7 @@ func (self *CsvUtilMgr) getTagMap(fields []string) map[int]string {
 	return tagMap
 }
 
-func (self *CsvUtilMgr) getValueType(SlicePtr interface{}) reflect.Type {
+func (m *CsvUtilMgr) getValueType(SlicePtr interface{}) reflect.Type {
 	value := reflect.ValueOf(SlicePtr)
 	if value.Kind() == reflect.Ptr {
 		// 返回指针指向的值,这里是slice
@@ -96,10 +96,10 @@ func (self *CsvUtilMgr) getValueType(SlicePtr interface{}) reflect.Type {
 // 指针只能取interface{}, 值得取Elem,否则会蹦
 // tagMap: csv第一行
 // filedMap: key: tag
-func (self *CsvUtilMgr) genConfig(dataPtr interface{}, csvData [][]string, tagMap map[int]string,
+func (m *CsvUtilMgr) genConfig(dataPtr interface{}, csvData [][]string, tagMap map[int]string,
 	fieldMap map[string][]string, trimFlag map[int]bool, fileName string, keyTag string) (err error) {
 	dataVal := reflect.Indirect(reflect.ValueOf(dataPtr))
-	outInnerType := self.getValueType(dataPtr)
+	outInnerType := m.getValueType(dataPtr)
 
 	//if fileName == "expspeedup" {
 	//litter.Dump(tagMap)
@@ -113,7 +113,7 @@ func (self *CsvUtilMgr) genConfig(dataPtr interface{}, csvData [][]string, tagMa
 		for c := 0; c < len(csvData[r]); c++ {
 			tag := tagMap[c]
 			if _, ok := trimFlag[c]; ok {
-				tag = self.trimNumber(tag)
+				tag = m.trimNumber(tag)
 			}
 
 			fieldInfo, ok := fieldMap[tag]
@@ -224,7 +224,7 @@ func (self *CsvUtilMgr) genConfig(dataPtr interface{}, csvData [][]string, tagMa
 	return nil
 }
 
-func (self *CsvUtilMgr) trimNumber(s string) string {
+func (m *CsvUtilMgr) trimNumber(s string) string {
 	subString := strings.TrimFunc(s, func(r rune) bool {
 		return unicode.IsNumber(r)
 	})
@@ -233,9 +233,9 @@ func (self *CsvUtilMgr) trimNumber(s string) string {
 
 }
 
-func (self *CsvUtilMgr) LoadCsv(fileName string, SlicePtr interface{}) {
+func (m *CsvUtilMgr) LoadCsv(fileName string, SlicePtr interface{}) {
 	csvFile := "csv/" + fileName + ".csv"
-	csvData := self.readCsv(csvFile)
+	csvData := m.readCsv(csvFile)
 	if len(csvData) <= 1 {
 		fmt.Println("len(csvData) <= 1, filename:", fileName)
 		os.Exit(1)
@@ -243,29 +243,29 @@ func (self *CsvUtilMgr) LoadCsv(fileName string, SlicePtr interface{}) {
 	}
 
 	//LogDebug("Read File:", fileName, len(csvData))
-	err := self.ParseDataSimple(csvData, SlicePtr, fileName)
+	err := m.ParseDataSimple(csvData, SlicePtr, fileName)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 }
 
-func (self *CsvUtilMgr) LoadEventsCsv(fileName string, SlicePtr interface{}) {
+func (m *CsvUtilMgr) LoadEventsCsv(fileName string, SlicePtr interface{}) {
 	csvFile := "csv/ChapterMap/" + fileName + ".csv"
-	csvData := self.readCsv(csvFile)
+	csvData := m.readCsv(csvFile)
 	if len(csvData) <= 1 {
 		fmt.Println("len(csvData/ChapterMap) <= 1, fileName:", fileName)
 		os.Exit(1)
 		return
 	}
 
-	err := self.ParseDataSimple(csvData, SlicePtr, fileName)
+	err := m.ParseDataSimple(csvData, SlicePtr, fileName)
 	if err != nil {
 		return
 	}
 }
 
-func (self *CsvUtilMgr) getFieldMapSimple(config interface{}, tagMap map[int]string) (map[string][]string, map[int]bool, string) {
+func (m *CsvUtilMgr) getFieldMapSimple(config interface{}, tagMap map[int]string) (map[string][]string, map[int]bool, string) {
 	t := reflect.TypeOf(config)
 	fieldMap := make(map[string][]string, t.NumField())
 	trimFlag := make(map[int]bool)
@@ -276,18 +276,18 @@ func (self *CsvUtilMgr) getFieldMapSimple(config interface{}, tagMap map[int]str
 		trim := field.Tag.Get("trim")
 
 		if trim == "1" || trim == "" {
-			tag = self.trimNumber(tag)
+			tag = m.trimNumber(tag)
 		}
 
 		for key, v := range tagMap {
-			if (trim == "" || trim == "1") && tag == self.trimNumber(v) {
+			if (trim == "" || trim == "1") && tag == m.trimNumber(v) {
 				trimFlag[key] = true
 			}
 		}
 
 		// 设置表数据结构
 		for key, v := range tagMap {
-			if (trim == "" || trim == "1") && tag == self.trimNumber(v) {
+			if (trim == "" || trim == "1") && tag == m.trimNumber(v) {
 				tagMap[key] = tag
 				break
 			}
@@ -304,14 +304,14 @@ func (self *CsvUtilMgr) getFieldMapSimple(config interface{}, tagMap map[int]str
 	return fieldMap, trimFlag, keyTag
 }
 
-func (self *CsvUtilMgr) ParseDataSimple(csvData [][]string, dataPtr interface{}, fileName string) (err error) {
-	outInnerType := self.getValueType(dataPtr)
+func (m *CsvUtilMgr) ParseDataSimple(csvData [][]string, dataPtr interface{}, fileName string) (err error) {
+	outInnerType := m.getValueType(dataPtr)
 	data := reflect.New(outInnerType.Elem())
 
 	value := reflect.Indirect(data)
-	tagMap := self.getTagMap(csvData[0])
-	fieldMap, trimFlag, keyTag := self.getFieldMapSimple(value.Interface(), tagMap)
-	err = self.genConfig(dataPtr, csvData, tagMap, fieldMap, trimFlag, fileName, keyTag)
+	tagMap := m.getTagMap(csvData[0])
+	fieldMap, trimFlag, keyTag := m.getFieldMapSimple(value.Interface(), tagMap)
+	err = m.genConfig(dataPtr, csvData, tagMap, fieldMap, trimFlag, fileName, keyTag)
 
 	return
 }

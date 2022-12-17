@@ -15,8 +15,11 @@ var ConfigAchievementMap map[int]*ConfigAchievement
 
 func init() {
 
+	// macos系统路径: /Users/biang/Desktop/github.com/BiangUncle/Guardian_Tales_Server
 	// todo 需要改动，不能默认这个地方来初始化文件目录
-	err := os.Chdir("C:\\Users\\Biang\\Desktop\\github.com\\BiangUncle\\Guardian_Tales_Server")
+	//err := os.Chdir("C:\\Users\\Biang\\Desktop\\github.com\\BiangUncle\\Guardian_Tales_Server")
+
+	err := os.Chdir("/Users/biang/Desktop/github.com/BiangUncle/Guardian_Tales_Server")
 	if err != nil {
 		panic(err)
 	}

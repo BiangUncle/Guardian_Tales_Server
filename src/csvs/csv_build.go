@@ -1,6 +1,9 @@
 package csvs
 
-import "server/src/utils"
+import (
+	"fmt"
+	"server/src/utils"
+)
 
 const (
 	PRODUCT_BUILD_TYPE_FOOD          = 1
@@ -33,6 +36,7 @@ func init() {
 	LandmarkBuildConfigMap = make(map[int]*LandmarkBuildConfig)
 	utils.GetCsvUtilMgr().LoadCsv("productBuild", &ProductBuildConfigMap)
 	utils.GetCsvUtilMgr().LoadCsv("landmarkBuild", &LandmarkBuildConfigMap)
+	fmt.Println(LandmarkBuildConfigMap)
 	return
 }
 
@@ -61,7 +65,7 @@ func HaveBuild(buildKey int) bool {
 	return true
 }
 
-func GetLandmarkBuilldConfig(buildId int) *LandmarkBuildConfig {
+func GetLandmarkBuildConfig(buildId int) *LandmarkBuildConfig {
 	landmarkBuildConfig, ok := LandmarkBuildConfigMap[buildId]
 	if !ok {
 		return nil

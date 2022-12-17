@@ -78,13 +78,13 @@ type ModFloatCity struct {
 	PlantInfos       [PLANT_NUM]*PlantInfo
 }
 
-func (self *ModFloatCity) FloatCityInit() {
+func (m *ModFloatCity) FloatCityInit() {
 
 	// map初始化
-	self.ProductBuildNumMap = make(map[int]int)
-	self.ModLandMarkBuild = new(ModLandMarkBuild)
+	m.ProductBuildNumMap = make(map[int]int)
+	m.ModLandMarkBuild = new(ModLandMarkBuild)
 	for i := 0; i < 6; i++ {
-		self.ModLandMarkBuild.BuildIdxSlice[i] = -1
+		m.ModLandMarkBuild.BuildIdxSlice[i] = -1
 	}
 
 	// 初始化植物
@@ -93,10 +93,13 @@ func (self *ModFloatCity) FloatCityInit() {
 		plant.Status = PLANT_STATUS_MATURE
 		plant.NextCollectTime = time.Now().Unix()
 		plant.location = i
-		self.PlantInfos[i] = plant
+		m.PlantInfos[i] = plant
 	}
 
-	innConfig := csvs.GetLandmarkBuilldConfig(0)
+	innConfig := csvs.GetLandmarkBuildConfig(1)
+	if innConfig == nil {
+		panic("FloatCityInit error")
+	}
 
 	// 初始化旅馆
 	inn := new(Inn)
@@ -109,28 +112,28 @@ func (self *ModFloatCity) FloatCityInit() {
 	inn.Level = 1
 	inn.BuildLevelLimit = 1
 
-	self.BuildKey++
-	inn.KeyId = self.BuildKey
-	self.ModLandMarkBuild.Inn = inn
+	m.BuildKey++
+	inn.KeyId = m.BuildKey
+	m.ModLandMarkBuild.Inn = inn
 
 }
 
-func (self *ModFloatCity) GetBuildLevelLimit() int {
-	return self.ModLandMarkBuild.Inn.BuildLevelLimit
+func (m *ModFloatCity) GetBuildLevelLimit() int {
+	return m.ModLandMarkBuild.Inn.BuildLevelLimit
 }
 
-func (self *ModFloatCity) GetHeroNumLimit() int {
-	return self.ModLandMarkBuild.Inn.HeroNumLimit
+func (m *ModFloatCity) GetHeroNumLimit() int {
+	return m.ModLandMarkBuild.Inn.HeroNumLimit
 }
 
-func (self *ModFloatCity) GetSplitPointLimitHero() int {
-	return self.ModLandMarkBuild.Inn.SplitPointLimitHero
+func (m *ModFloatCity) GetSplitPointLimitHero() int {
+	return m.ModLandMarkBuild.Inn.SplitPointLimitHero
 }
 
-func (self *ModFloatCity) Build(buildType int, buildId int, loc int) {
+func (m *ModFloatCity) Build(buildType int, buildId int, loc int) {
 	if buildType == BUILD_TYPE_PRODUCT {
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "建造生产建筑")
-		self.BuildProductBuild(buildId, loc)
+		m.BuildProductBuild(buildId, loc)
 		return
 	}
 	if buildType == BUILD_TYPE_LANDMARK {
@@ -140,18 +143,18 @@ func (self *ModFloatCity) Build(buildType int, buildId int, loc int) {
 	fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "未知建筑类型")
 }
 
-func (self *ModFloatCity) BuildLandMarkBuild(buildId int, loc int) {
+func (m *ModFloatCity) BuildLandMarkBuild(buildId int, loc int) {
 	if loc == INN_LOCATION || buildId == INN_BUILD_ID {
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "不准动旅馆")
 		return
 	}
 
-	if self.ModLandMarkBuild.BuildIdxSlice[loc] != -1 {
+	if m.ModLandMarkBuild.BuildIdxSlice[loc] != -1 {
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "该地已有建筑物")
 		return
 	}
 
-	landmarkConfig := csvs.GetLandmarkBuilldConfig(buildId)
+	landmarkConfig := csvs.GetLandmarkBuildConfig(buildId)
 	if landmarkConfig == nil {
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "未知地标建筑物")
 		return
@@ -167,47 +170,47 @@ func (self *ModFloatCity) BuildLandMarkBuild(buildId int, loc int) {
 
 	switch buildId {
 	case SKYGARDEN_KEY:
-		if self.ModLandMarkBuild.SkyGarden != nil {
+		if m.ModLandMarkBuild.SkyGarden != nil {
 			fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "已有该建筑物")
 			return
 		}
 		skyGarden := new(SkyGarden)
 		skyGarden.Build = *build
 		skyGarden.SplitPointLimitCity = 100000
-		self.ModLandMarkBuild.SkyGarden = skyGarden
+		m.ModLandMarkBuild.SkyGarden = skyGarden
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), skyGarden.GetFunction())
 	case DEFENSETOWER_KEY:
-		if self.ModLandMarkBuild.DefenseTower != nil {
+		if m.ModLandMarkBuild.DefenseTower != nil {
 			fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "已有该建筑物")
 			return
 		}
 		defenseTower := new(DefenseTower)
 		defenseTower.Build = *build
 		defenseTower.DefAdd = 1
-		self.ModLandMarkBuild.DefenseTower = defenseTower
+		m.ModLandMarkBuild.DefenseTower = defenseTower
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), defenseTower.GetFunction())
 	case POWERTOWER_KEY:
-		if self.ModLandMarkBuild.PowerTower != nil {
+		if m.ModLandMarkBuild.PowerTower != nil {
 			fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "已有该建筑物")
 			return
 		}
 		powerTower := new(PowerTower)
 		powerTower.Build = *build
 		powerTower.AtkAdd = 1
-		self.ModLandMarkBuild.PowerTower = powerTower
+		m.ModLandMarkBuild.PowerTower = powerTower
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), powerTower.GetFunction())
 	case HEROSTATUE_KEY:
-		if self.ModLandMarkBuild.HeroStatue != nil {
+		if m.ModLandMarkBuild.HeroStatue != nil {
 			fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "已有该建筑物")
 			return
 		}
 		heroStatue := new(HeroStatue)
 		heroStatue.Build = *build
 		heroStatue.VisitRangeMinus = 20
-		self.ModLandMarkBuild.HeroStatue = heroStatue
+		m.ModLandMarkBuild.HeroStatue = heroStatue
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), heroStatue.GetFunction())
 	case SHOP_KEY:
-		if self.ModLandMarkBuild.Shop != nil {
+		if m.ModLandMarkBuild.Shop != nil {
 			fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "已有该建筑物")
 			return
 		}
@@ -215,7 +218,7 @@ func (self *ModFloatCity) BuildLandMarkBuild(buildId int, loc int) {
 		shop.Build = *build
 		shop.UpdateTime = time.Now().Add(24 * time.Hour).Unix()
 		shop.GoodsLevel = 1
-		self.ModLandMarkBuild.Shop = shop
+		m.ModLandMarkBuild.Shop = shop
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), shop.GetFunction())
 	default:
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "未知地标")
@@ -223,14 +226,14 @@ func (self *ModFloatCity) BuildLandMarkBuild(buildId int, loc int) {
 	}
 }
 
-func (self *ModFloatCity) BuildProductBuild(buildId int, loc int) {
+func (m *ModFloatCity) BuildProductBuild(buildId int, loc int) {
 
 	if loc >= PRODUCT_BUILD_NUM {
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "错误建筑索引")
 		return
 	}
 
-	if self.ProductBuildInfos[loc] != nil {
+	if m.ProductBuildInfos[loc] != nil {
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "该地点已有建筑物")
 		return
 	}
@@ -241,21 +244,21 @@ func (self *ModFloatCity) BuildProductBuild(buildId int, loc int) {
 		return
 	}
 
-	if v, ok := self.ProductBuildNumMap[buildId]; ok {
+	if v, ok := m.ProductBuildNumMap[buildId]; ok {
 		if v >= buildConfig.Limit {
 			fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "建筑物达到上限")
 			return
 		}
 	} else {
-		self.ProductBuildNumMap[buildId] = 0
+		m.ProductBuildNumMap[buildId] = 0
 	}
 
-	self.BuildKey++
+	m.BuildKey++
 	productBuild := &ProductBuild{
 		Build: Build{
 			Location:        loc,
 			Status:          BUILD_STATUS_BUILDING,
-			KeyId:           self.BuildKey,
+			KeyId:           m.BuildKey,
 			Level:           1,
 			Name:            buildConfig.BuildName,
 			BuildType:       BUILD_STATUS_BUILDING,
@@ -264,7 +267,7 @@ func (self *ModFloatCity) BuildProductBuild(buildId int, loc int) {
 		Type:       buildConfig.Type,
 		TypeOutput: 20,
 	}
-	self.ProductBuildInfos[loc] = productBuild
+	m.ProductBuildInfos[loc] = productBuild
 	fmt.Println(fmt.Sprintf("%s[%d][%s] Lv:【%d】 产量:【%d】 状态:【%s】",
 		utils.Red(FLOATCITY_SYSTEM_INFO),
 		productBuild.GetLocation(),
@@ -276,20 +279,20 @@ func (self *ModFloatCity) BuildProductBuild(buildId int, loc int) {
 
 	switch buildConfig.Type {
 	case csvs.PRODUCT_BUILD_TYPE_FOOD:
-		self.FoodOutput += 20
+		m.FoodOutput += 20
 	case csvs.PRODUCT_BUILD_TYPE_DRINK:
-		self.DrinkOutput += 20
+		m.DrinkOutput += 20
 	case csvs.PRODUCT_BUILD_TYPE_ENTERTAINMENT:
-		self.EnterOutput += 20
+		m.EnterOutput += 20
 	}
-	self.ProductBuildNumMap[buildId]++
+	m.ProductBuildNumMap[buildId]++
 }
 
-func (self *ModFloatCity) ShowAllBuilding() {
+func (m *ModFloatCity) ShowAllBuilding() {
 
 	fmt.Println("= 生活类建筑 =======================================================")
 
-	for _, build := range self.ProductBuildInfos {
+	for _, build := range m.ProductBuildInfos {
 		if build != nil {
 			fmt.Println(fmt.Sprintf("[%d][%s] Lv:【%d】 产量:【%d】 状态:【%s】",
 				build.GetLocation(),
@@ -303,7 +306,7 @@ func (self *ModFloatCity) ShowAllBuilding() {
 
 	//fmt.Println("= 地标类建筑 =======================================================")
 	//
-	//for _, build := range self.LandMarkBuildInfos {
+	//for _, build := range m.LandMarkBuildInfos {
 	//	if build != nil {
 	//		if lanmarkBuild, ok := (*build).(LandMarkBuild); ok {
 	//
@@ -320,7 +323,7 @@ func (self *ModFloatCity) ShowAllBuilding() {
 
 	fmt.Println("= 植物类建筑 =======================================================")
 
-	for _, plant := range self.PlantInfos {
+	for _, plant := range m.PlantInfos {
 		if plant != nil {
 			fmt.Println(fmt.Sprintf("[%d] 状态:【%d】",
 				plant.GetLocation(),
@@ -332,17 +335,17 @@ func (self *ModFloatCity) ShowAllBuilding() {
 	fmt.Println("================================================================")
 }
 
-func (self *ModFloatCity) UpdatePlant(loc int) {
-	if time.Now().Unix() >= self.PlantInfos[loc].NextCollectTime {
-		self.PlantInfos[loc].Status = PLANT_STATUS_MATURE
+func (m *ModFloatCity) UpdatePlant(loc int) {
+	if time.Now().Unix() >= m.PlantInfos[loc].NextCollectTime {
+		m.PlantInfos[loc].Status = PLANT_STATUS_MATURE
 	}
 }
 
-func (self *ModFloatCity) CollectPlant(loc int) {
-	if self.PlantInfos[loc].Status != PLANT_STATUS_MATURE {
+func (m *ModFloatCity) CollectPlant(loc int) {
+	if m.PlantInfos[loc].Status != PLANT_STATUS_MATURE {
 		fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "植物未成熟")
 	}
-	plant := self.PlantInfos[loc]
+	plant := m.PlantInfos[loc]
 	plant.Status = PLANT_STATUS_GROWING
 	plant.NextCollectTime = time.Now().Add(10 * time.Second).Unix()
 	fmt.Println(utils.Red(FLOATCITY_SYSTEM_INFO), "植物采集成功")

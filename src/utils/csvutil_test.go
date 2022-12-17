@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	err := os.Chdir("C:\\Users\\Biang\\Desktop\\github.com\\BiangUncle\\Guardian_Tales_Server")
+	err := os.Chdir("/Users/biang/Desktop/github.com/BiangUncle/Guardian_Tales_Server")
 	if err != nil {
 		panic(err)
 	}

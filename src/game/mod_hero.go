@@ -6,8 +6,7 @@ import (
 )
 
 const (
-	ITEM_HERO_CRYSTAL = 5000001
-
+	ITEM_HERO_CRYSTAL         = 5000001
 	MODHERO_SYSTEM_INFO       = "【英雄模块】"
 	MODHERO_SYSTEM_COLOR_INFO = "\x1b[0;31m【英雄模块】\x1b[0m"
 )
@@ -25,15 +24,20 @@ type ModHero struct {
 	HeroInfos map[int]*HeroInfo
 }
 
-func (self *ModHero) AddHero(heroId int, player *Player) {
-	if self.HasHero(heroId) {
-		self.Transform2HeroCrystal(self.HeroInfos[heroId], player)
+// AddHero 增加英雄
+// @param heroId: 英雄id
+func (m *ModHero) AddHero(heroId int, player *Player) {
+	// 判断是否存在英雄
+	if m.HasHero(heroId) {
+		// 转成英雄水晶
+		m.Transform2HeroCrystal(m.HeroInfos[heroId], player)
 	} else {
+		// 获取英雄配置
 		heroInfo := csvs.GetHeroConfig(heroId)
 		if heroInfo == nil {
 			fmt.Println(MODHERO_SYSTEM_COLOR_INFO, "非法英雄Id")
 		}
-		self.HeroInfos[heroId] = &HeroInfo{
+		m.HeroInfos[heroId] = &HeroInfo{
 			HeroId:   heroId,
 			NickName: heroInfo.NickName,
 			HeroName: heroInfo.HeroName,
@@ -52,21 +56,23 @@ func (self *ModHero) AddHero(heroId int, player *Player) {
 	player.ModIcon.AddIcon(iconConfig.IconId)
 }
 
-func (self *ModHero) HasHero(heroId int) bool {
-	_, ok := self.HeroInfos[heroId]
+// HasHero 判断该角色是否有这个英雄
+func (m *ModHero) HasHero(heroId int) bool {
+	_, ok := m.HeroInfos[heroId]
 	if !ok {
 		return false
 	}
 	return true
 }
 
-func (self *ModHero) Transform2HeroCrystal(heroInfo *HeroInfo, player *Player) {
+// Transform2HeroCrystal 转换到英雄水晶
+func (m *ModHero) Transform2HeroCrystal(heroInfo *HeroInfo, player *Player) {
 	switch heroInfo.Star {
 	case 1:
-		player.ModBag.AddNormalItem(ITEM_HERO_CRYSTAL, csvs.ONESTAR_HERO_HERO_CRTSTAL)
+		player.ModBag.AddNormalItem(ITEM_HERO_CRYSTAL, csvs.OneStarHeroHeroCrystal)
 	case 2:
-		player.ModBag.AddNormalItem(ITEM_HERO_CRYSTAL, csvs.TWOSTAR_HERO_HERO_CRTSTAL)
+		player.ModBag.AddNormalItem(ITEM_HERO_CRYSTAL, csvs.TwoStarHeroHeroCrystal)
 	case 3:
-		player.ModBag.AddNormalItem(ITEM_HERO_CRYSTAL, csvs.THREESTAR_HERO_HERO_CRTSTAL)
+		player.ModBag.AddNormalItem(ITEM_HERO_CRYSTAL, csvs.ThreeStarHeroHeroCrystal)
 	}
 }

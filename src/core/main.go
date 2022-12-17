@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"server/src/core/test"
 	"server/src/csvs"
@@ -9,16 +10,19 @@ import (
 	"server/src/utils"
 )
 
-func init() {
-	err := os.Chdir("C:\\Users\\Biang\\Desktop\\github.com\\BiangUncle\\Guardian_Tales_Server")
+// Init 设置工作路径
+func Init() {
+	err := os.Chdir("/Users/biang/Desktop/github.com/BiangUncle/Guardian_Tales_Server")
 	if err != nil {
 		panic(err)
 	}
+	log.Infoln("设置工作路径")
 }
 
 func main() {
 
 	// todo 抽卡模块
+	Init()
 	csvs.CheckLoadCsv()
 	player := game.NewTestPlayer()
 	RUN(player)
